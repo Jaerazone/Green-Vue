@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+</head>
+<body>
+    <!-- 5) v-if : if 문을 사용하게 되면 참일때만 생성하게된다 
+            v-else-if : if가 참이 아닐때 참으로 출력됨
+            v-else : 다른 조건문이 거짓일때 사용된다.
+                    그리고 if과 else-if가 출력이 아니라면 마지막에출력됨
+            3가지전부 p태그뿐만 아니라 div나 다른 태그들도 동일하게 적용됨!
+        -->
+    <div id="app">
+        <button v-on:click="error = !error">
+            error true/false
+        </button>
+        <p v-if="error">에러발생 : 이미지를 로드하지 못했습니다.</p>
+        <!-- <p>새로운 요소입니다</p> -->
+        <!-- 24번줄. 이렇게 중간에 <p>태그가 들어오게되면
+            if와 밑의 else-if나 else와 줄 떨어지기때문에 밑에 else-if와 else는 활용불가
+            에러날수도 있어서 주석처리해둠.
+        -->
+        <p v-else-if="appear"> 에러는 발생하지 않았지만 그림은 없습니다.</p>
+        <p v-else> 마지막 else 로 만들어진 p요소입니다</p>
+
+        <!-- 5-1) v-if, else, else-if 실습 -->
+        <button v-on:click="login = !login">임시로그인 버튼</button>
+
+        <!-- login 이 true 일때 -->
+        <p v-if="login">{{id}}님이 로그인을 하였습니다</p>
+        <!-- login 이 false 일때 -->
+        <div v-else>
+            <p>아이디를 입력해주세요</p>
+            <input type="text" v-model="id">
+        </div>
+
+        <!-- 5-2) v-if, else, else-if 실습 -->
+        <button v-on:click="canAddCart = !canAddCart">임시 canAddCart 버튼</button>
+        <!-- canAddCart 이 true 일때 -->
+        <div v-if="canAddCart">
+            <p>상품이 있습니다</p>
+            <button>구매 가능합니다</button>
+        </div>
+        <!-- canAddCart 이 false 일때 -->
+        <div v-else>
+            <p>상품이 없습니다</p>
+            <button disabled>구매 불가능합니다</button>
+        </div>
+
+        <p>{{canAddCart ? "상품이 있습니다": "상품이 없습니다"}}</p>
+        <button v-bind:disabled="!canAddCart">
+            구매 {{canAddCart ? "가능": "불가능"}}
+        </button>
+
+        <!-- 6) v-show : 이미 생성은 되어있고, true일때 보임 
+                        / false일때 display:none이 되어 안보임 -->
+        <h3 v-show="canAddCart">상품이 있으므로 보입니다</h3>
+
+    </div>
+
+    <script>
+        new Vue ({
+            el : "#app",
+            data : {
+                error : "값", // 혹은 10<0 또는 "" <이걸 적어서 false 값을 줄수도있다 빈값은 false
+                appear : false, // "값" < 안에 값이 잇으면 true
+                
+                // 5-1) v-if, else, else-if 실습
+                id : "",
+                login : false, // 처음에는 로그인상태가 아니니 false
+
+                // 5-2) v-if, else, else-if 실습
+                canAddCart : true
+            }
+        });
+    </script>
+</body>
+</html>

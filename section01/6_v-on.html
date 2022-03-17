@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+</head>
+<body>
+    <!-- 9) v-on  -->
+
+    <div id="app">
+        <button v-on:click="name='홍길동'">
+            버튼을 클릭하면 이름이 바뀝니다
+        </button>
+        <button v-on:mouseover="name='성춘향'">
+            마우스를 올리면 이름이 바뀝니다
+        </button>
+        
+        <p>{{name}}</p>
+
+
+        <button @click="countPlus">숫자가 올라갑니다</button>
+        <!-- 버튼을 누르면 count 값이 0이 됩니다 -->
+        <button @click="countReset">숫자 리셋</button>
+        <!-- <button @click="count = 0">숫자 리셋</button> --> 
+        <!-- 메서드없이 count=o을 바로줘도 된다. -->
+        <p>{{count}}</p>
+        
+        <!-- 10) form, prevent 이벤트 -->
+        <h1>Form submit이벤트</h1>
+        <form @submit.prevent="formSubmit"> <!-- prevent : 새로고침방지, formSubmit: 함수호출-->
+            <input type="text">
+            <input type="submit">
+        </form>
+        <p>{{result}}</p>
+
+        <!-- 11) v-on 키 수식어 // key -->
+        <!-- 키 이벤트와 수식어를 통해 특정한 키를 눌렀을때 이벤트 발생 -->
+        <input type="text" @keydown.space="countPlus" @keyup.delete="countReset"> 
+        <!-- keydown.space : 스페이스 키를 눌렀을때
+            keyup.delete : delete <종류 키를 땟을때 
+        -->
+
+    </div>
+
+    <script>
+        // 9) v-on
+        new Vue ({
+            el : "#app",
+            data : {
+                name:"빈 이름",
+                count: 0,
+                //10) form, prevent 이벤트 
+                result:""
+            },
+            methods : {
+                countPlus() { this.count++ },
+                countReset() { this.count=0 },
+                // 10) form, prevent 이벤트 
+                formSubmit () {this.result="submit 하였습니다"}
+            }
+        });
+    </script>
+</body>
+</html>
