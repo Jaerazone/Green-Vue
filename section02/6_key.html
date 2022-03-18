@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+</head>
+<body>
+    <!-- 11) key를 통해 이것이 가상의DOM인지 현재DOM인지 확인할수있다-->
+    <div id="app">
+        <button @click="change">버튼을 누르면 input이 바뀝니다 </button>
+        
+        <input v-if="buttonName" type="text" v-model="name" placeholder="사용자 이름을 입력하세요">
+        <input v-else type="text" v-model="email" placeholder="이메일주소를 입력하세요">
+    </div>
+
+    <script>
+        // 11) key를 통해 이것이 가상의DOM인지 현재DOM인지 확인할수있다
+        new Vue ({
+            el : "#app",
+            data : {
+                name:"",
+                email:"",
+                buttonName: true
+            },
+            methods : {
+                change :function() {
+                    this.buttonName =!this.buttonName;
+                }
+            }
+        })
+    </script>
+    
+</body>
+</html>

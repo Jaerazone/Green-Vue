@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+</head>
+<body>
+    <!-- 7) methods 속성 // 이벤트를 통해서 메소드의 형태로 사용한다-->
+    <div id="app">
+        <button @click="sayHello1">버튼을 눌러주세요</button>
+        <button @click="sayHello2" @mouseleave="sayHello2">버튼을 눌러주세요</button>
+        <br><br>
+        <!-- 7-1) methods 속성 실습 -->
+        <input type="text" v-model="name">
+        <button v-on:click="clickBt">누르면 alert이 발생합니다</button>
+        
+    </div>
+
+    <script>
+        //7) methods 속성 : 이벤트를 통해서 메소드의 형태로 사용한다
+        new Vue({
+            el : "#app",
+            data : {
+                message : "Hi",
+                name : ""
+            },
+            methods : {
+                sayHello1 : function() {
+                    alert(this.message);
+                },
+                //sayHello2 (e) { alert(e.target+this.message); } // e.target : 어떠한 객체를 눌렀는지 확인
+                //sayHello2 (e) { alert(e.type+this.message); } // e.type : 이벤트 객체의 타입을 확인
+                sayHello2 (e) {
+                    if(e.type == "mouseleave") {
+                        alert("마우스가 올라갔습니다")
+                    }
+                    else {
+                        alert(this.message);
+                    }
+                },
+                // 7-1) methods 속성 실습
+                clickBt : function() {
+                    alert(this.name+"님data의 메세지입니다");
+                }
+            }
+        })
+    </script>
+    
+</body>
+</html>

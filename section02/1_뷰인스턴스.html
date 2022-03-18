@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+</head>
+<body>
+    <!-- 6) template 속성 및 실습
+        template를 사용하면 body안의 내용안보이고, 
+        script 안의 template 내용이 body안으로 대체된다.
+    -->
+    
+    <div id="app">
+        <p>{{msg}}</p>
+
+    <script>
+        // 6) template 속성 및 실습
+        new Vue({
+            el : "#app",
+            data : {
+                msg : "좋은 아침입니다"
+            },
+            template :`
+            <div id="template">
+                <h1>templated으로 생성된 화면입니다</h1>
+                <p>{{msg}}</p>
+                <div>div 요소입니다</div>
+                <input type="text" v-model="msg"> 
+            </div>
+        `
+        })
+        
+    </script>
+</body>
+</html>

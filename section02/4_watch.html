@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+</head>
+<body>
+    <!-- 9) watch -->
+    <div id="app">
+        <label for="">십진수</label>
+        <input type="text" v-model="dec"> <!-- 10진수의 약자 dec -->
+        <label for="">이진수</label>
+        <input type="text" v-model="binary"> <!-- 2진수의 약자 binary -->
+    </div>
+    
+    <script>
+        // 9) watch
+        new Vue ({
+            el: "#app",
+            data : {
+                dec : 0,
+                binary : 0
+            },
+            watch : {
+                dec : function(val) {
+                    this.dec = val;
+                    this.binary = parseInt(val.toString(2));
+                },
+                binary : function(val) {
+                    this.binary = val;
+                    this.dec = parseInt(val,2);
+                },
+            }
+        })
+    </script>
+</body>
+</html>
