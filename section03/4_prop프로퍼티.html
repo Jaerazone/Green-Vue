@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+</head>
+<body>
+    <!-- 4) props 프로퍼티 // 컴포넌트간 값전달 -->
+    <div id="app">
+        <input type="text" v-model="message">
+
+        <!-- Vue 인스턴스가 부모가 되어 v-bind를 통해 message를 전달 -->
+        <child-component v-bind:childmessage="message"></child-component>
+
+        <!-- parent컴포넌트가 부모가 되어 v-bind를 통해 message 전달 -->
+        <parent-component></parent-component>
+
+        <!-- v-bind가 아닌 속성의 이름으로만 전달하면 그 값이 문자열로 전달 -->
+        <child-component v-bind:childmessage="message"></child-component>
+
+        
+
+    </div>
+    <script>
+        Vue.component('parent-component', { // 컴포넌트는 각각 별개로 생각해야한다
+            template : `
+            <div>
+                <input type="text" v-model="message">
+                <p>부모 component 입니다</p>
+                <child-component v-bind:childmessage="message"></child-component>
+            </div>
+            `,
+            data : function() {
+                return {
+                    message : '부모컴포넌트의 메세지'
+                };
+            }
+        })
+
+
+        // 4) props 프로퍼티
+        Vue.component('child-component', {
+            //태그에서 속성처럼 사용하여 값을 들고옴, 배열
+            props : ['childmessage'], // 부모와 연결해줄때 v-bind 사용
+            // 그냥 전달할때는 값으로 전달 props : ['url'], <-> url="#"
+            template : 
+            `
+            <div>
+                <!-- data와 동일하게 사용 -->
+                <p>{{childmessage}}</p>
+            </div>
+            `
+        })
+
+        new Vue ({
+            el : "#app",
+            data : {
+                message : "부모의 메세지"
+            }
+        })
+    </script>
+    
+    <!-- 슬롯  -->
+
+</body>
+</html>

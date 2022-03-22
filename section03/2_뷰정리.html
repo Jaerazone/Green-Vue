@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+</head>
+<body>
+    <div id="app">
+        <p>{{massage}}</p>
+        <!-- 메서드는 이벤트나 이름을 적어서 직접 호출해서 사용 -->
+        <button @click="changeMassage('입력받은값')">메세지바꿈</button>
+        <button @click="clickBtn">버튼메서드를 이용해서 메세지바꿈</button>
+
+        <!-- data의 값이 변경되었을때 계산값을 보여줄때 computed -->
+        <p>{{reverseMessage}}</p> 
+        
+    </div>
+
+    <script>
+        //자바스크립트의 객체(인스턴스)
+        let pen = {
+            //속성
+            length : 10,
+            //메서드
+            write : function() {
+                return "글을씁니다";
+            }
+        }
+        
+        new Vue ({
+            el : "#app",
+            data : {
+                massage: "메세지입니다",
+                // rm : "" // 뒤집어진 메세지를 넣을 공간을 만들어줌
+            },
+            methods : {
+                changeMassage : function (m) {
+                    this.massage = m+" 입니다"
+                },
+                clickBtn : function() {
+                    //메서드는 직접 호출하여 사용가능
+                    //this.changeMassage("클릭버튼")  // 뷰에서 들고오기때문에 this를 붙인다 , 메세지값을 받아오기 위해서 "넣어줌"
+                    this.changeMassage( pen.write() );
+                }
+            },
+            computed : {
+                reverseMessage : function (){
+                    let rm = this.massage.split('').reverse().join('');
+                    return rm;
+                }
+            }
+        })
+    </script>
+
+</body>
+</html>

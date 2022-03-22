@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<!-- 
+    자바스크립트
+    객체,함수 : '캐멀케이스' numCount()
+    변수 : random_num
+
+    HTML
+    컴포넌트,style(CSS)
+    : send-message 하이픈(작대기)로 '케밥케이스'
+-->
+</head>
+<body>
+    <!-- 5) emit 사용법 -->
+    <!-- emit는 자식 컴포넌트-> 부모 컴포넌트에게 데이터를 전달
+        규칙1) 전달키와 받는키가 동일해야한다
+        규칙2) 받는 키를 등록해줘야한다
+    -->
+    <div id="app">
+
+        {{message}}
+        <!-- (5) $emit을 통해 호출한 이벤트(smessage)발생 -->
+        <!-- (6) Vue인스턴스의 receiveMessage 메서드를 호출 -->
+        <send-message v-on:smessage="receiveMessage"></send-message>
+    </div>
+    
+    <script>
+        Vue.component('send-message',{ //(2)자식 컴포넌트를 만든다. 자식컴포넌트에서 버튼을 눌렀을때 메소드 실행
+            template :
+            ` 
+            <div>
+                <input type="text" v-model="message"> <!-- (8)추가로 v-model로 버튼누를시 input밸류값을 반영-->
+                <button v-on:click="send">버튼을 누르면 값이 전달됩니다</button>
+            </div>
+            `,
+            data : function() {
+                return {
+                    message : '보낸값'
+                }
+            },
+            methods : { // (3) 자식컴포넌트의 메서드에서 이벤트를 만들어서 호출한다
+                send : function (){
+                    // (4) smessage를 누르면, 이때 this.message를 인수로 함께 보낸다.
+                    this.$emit("smessage", this.message)
+                }
+            }
+        })
+
+
+        new Vue ({
+            el : "#app",
+            data : {
+                //(1)자식의 값을 받을 메세지 작성
+                message : '$emit을 이용해서 전달받기'
+            },
+            methods : {
+                //(7-end) 메서드를 호출하고 받아온 인수값(msg)를 this.message에 할당
+                receiveMessage : function(msg){ //msg 는 (4)의 this.message
+                    this.message = msg;
+                }
+            } 
+        })
+    </script>
+    
+</body>
+</html>

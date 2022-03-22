@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+</head>
+<body>
+    <!-- 4-1) props 프로퍼티 실습 -->
+    
+    <div id="app">
+        이름을 작성해 주세요
+        <input type="text" v-model="name">
+        <child-component v-bind:childname="name[0]" age="20"></child-component>
+        <child-component v-bind:childname="firstName" age="10"></child-component>
+        <br><br>
+    <!-- 4-2) props 프로퍼티 실습 -->
+        <!-- 배열의 값을 인덱스로 접근 -->
+        <child2-component v-for="n in 2" v-bind:childname="names[n-1]"></child2-component>
+        <child2-component v-for="n in names" v-bind:childname="n"></child2-component>
+
+    </div>
+
+    <script>
+        // 4-1) props 프로퍼티 실습 
+        // props : 외부에서 받아오는값, props은 html 안에 값을 들고오기 위해 사용, v-bind와 연결된다.단방향 연결!
+        // html의 속성명=값 형식으로 외부에서 받아오는값
+        // props[속성명] = html의 값
+
+        // data : 내부에서 미리 지정해주는값, 컴포넌트가 실행되면서 컴포넌트 안의 adress값을 넣어준다
+        Vue.component('child-component', {
+            props : ['childname', 'age'],
+            template : `
+            <div>
+                <p>자식 컴포넌트에 작성되고 있습니다 : {{childname}} </p>
+                <p>{{age}}세 입니다</p>
+                <p>{{adress}}에 거주중입니다</p>
+            </div>
+            `,
+            data : function() {
+                return {
+                    adress : '부산'
+                };
+            }
+        })
+    // 4-2) props 프로퍼티 실습 
+        Vue.component('child2-component',{
+            props : ['childname'],
+            template : `
+            <div>
+                <p>자식 컴포넌트에 작성되고 있습니다 : {{childname}} </p>
+            </div>
+            `,
+        })
+
+        new Vue ({
+            el : "#app",
+            data : {
+                name : ['a'],
+                firstName : '홍',
+    // 4-2) props 프로퍼티 실습 
+                names : ["철수","영희"],
+            },
+        })
+    </script>
+</body>
+</html>

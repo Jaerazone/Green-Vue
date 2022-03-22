@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    
+</head>
+<body>
+
+    <div id="app">
+        <p>{{count}}</p>
+        <!-- (6) $emit을 통해 호출한 이벤트(countUp) 발생 -->
+        <!-- (7) Vue인스턴스의 메서드 호출 -->
+        <count-component v-on:counter="receiveCount"></count-component>
+        <count-component v-on:counter="receiveCount"></count-component>
+        
+    </div>
+
+    <script>
+
+        Vue.component('count-component', { // (2) 자식 컴포넌트를 만든다.
+            template : // (3) 2개의 버튼을 만든다. (자신의 값을 올리는 버튼, 카운트 값을 전달하는 버튼)
+            `
+            <div>
+                <button v-on:click="count+=1">{{count}}</button>
+                <button v-on:click="sendCounter">부모로 값을 전달</button>
+            </div>
+            `,
+            //<button v-on:click="send">카운트 값 전달</button>
+
+            data : function () { // count버튼 누르면 show에 count숫자보이게함
+                return {
+                    count : 0
+                }
+            },
+            methods : {  // (4) 자식 컴포넌트의 메서드에서 이벤드를 만들어 호출한다
+                sendCounter : function () {
+                    //(5) countUp을 누르면, this.count를 인수로 함께 보낸다.
+                    this.$emit("counter",this.count)
+                }
+            }
+        })
+
+        new Vue ({
+            el : "#app",
+            data : { // (1) 자식의 값을 받을 메세지 작성
+                count : "아직 값을 전달받지 않았습니다"
+            },
+            methods : {
+                //(7) 메서드 만들어준다
+                receiveCount :function(mag) {
+                    this.count = mag;
+                }
+            }
+        })
+        
+    </script>
+</body>
+</html>

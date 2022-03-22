@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+</head>
+<body>
+    <!-- 3/22 수업 시작 -->
+    <!-- 1) 컴포넌트란?  
+        1) 단어2개 하이픈넣어서 사용 
+        2) 데이터는 함수로 넣어야함 
+        3) 모든 컴포넌트는 뷰인스턴스를 부모로 두고있다
+    -->
+    <div id="app">
+        <!-- 컴포넌트 이름의 태그로 불러옴 -->
+        <!-- 컴포넌트 template로 새로운 태그를 만들었기때문에 : HTML 요소 확장 -->
+        <!-- html에서 바로 볼수 없어서 ((캡슐화)) : 안의 내용을 알수 없고 간단하게 쓸수 있다. -->
+        <my-component></my-component>
+        <my-component></my-component>
+
+        <!-- 1-1) 컴포넌트 등록실습 -->
+        <counter-component></counter-component>
+        <counter-component></counter-component>
+
+        <!-- 2) 컴포넌트안에 컴포넌트를 사용하여 불러옴(전역 컴포넌트) --> <br>
+        <used-component></used-component>
+
+        <!-- 3) 컴포넌트의 적용범위 -->
+        <!-- Vue인스턴스에 등론된 지역 컴포넌트 -->
+        <vuein-component></vuein-component>
+        <!-- 3-1) 컴포넌트의 적용범위 실습 -->
+        <mychild-component></mychild-component>
+        <mychild2-component></mychild2-component>
+        
+    </div>
+
+    <script>
+        // 1) 컴포넌트란?
+        //전역으로 등록된 컴포넌트
+        //컴포넌트 등록
+        //Vue에서 컴포넌트를 만든다 ('my-component 라는 이름을 짓고', { template '한줄만사용' `백틱:여러줄사용가능`})
+        Vue.component ('my-component', { //
+            template : //HTML요소를 이용하여 화면 구성
+//template 사용할때 주의해야할점!!
+            // 반드시 하나의 요소로 내보낼것 div로 감싸서 내보냄
+            `
+            <div>
+                <p>{{message}}</p>
+                <button @click="countUp">{{count}}</button>
+            </div>
+            `,
+// ★★★ data는 반드시 함수형태로 만들어주고, {객체형식}으로 값을 리턴해줘야한다!!(리턴해줄게 많아서)
+            data : function() { 
+                return { 
+                message :"컴포넌트의 메세지입니다",
+                count : 0
+                }; 
+            },
+            methods : {
+                countUp : function() {
+                    this.count++;
+                }
+            }
+        })
+        // 1-1) 컴포넌트 등록실습
+        Vue.component ('counter-component', {
+            template : 
+            `
+            <div>
+                <p>{{count}}</p>
+                <button @click="countUp">숫자가 올라갑니다</button>
+                <button @click="countDown">숫자가 내려갑니다</button>
+                <button @click="count = 0">숫자0</button>
+            </div>
+            `,
+            data : function () {
+                return { count : 0 };
+            },
+            methods : {
+                countUp : function () {
+                    this.count++;
+                },
+                countDown : function () {
+                    this.count-=1 ;
+                }
+            }
+        })
+
+        // 2) 다른컴포넌트에서 사용하기 위한 컴포넌트(전역 컴포넌트)
+        Vue.component('small-component', {
+            template : '<p>hi</p>'
+        })
+
+        // 3) 다른 컴포넌트를 템플릿에 불러와서 사용
+        Vue.component('used-component', {
+            template : 
+            `
+            <div>
+                <p>used컴포넌트입니다</p>
+                <small-component></small-component> <!-- 전역 컴포넌트를 불러옴 -->
+                
+            </div>
+            `
+        })        
+
+        new Vue ({
+            el : "#app",
+            components : { // 3) 다른 컴포넌트를 템플릿에 불러와서 사용
+                'vuein-component' : { 
+                    template : `<p> (div#app에서만) Vue 인스턴스에서만 쓸수있는 지역 컴포넌트</p>`
+                },
+                // 3-1) 컴포넌트의 적용범위 실습 (Vue인스턴스안에 지역컴포넌트를 만든다)
+                'mychild-component' : {
+                    template : `<p>Vue인스턴스의 첫번째 지역컴포넌트</p>`
+                },
+                'mychild2-component' : {
+                    template : `<p>Vue인스턴스의 두번째 지역컴포넌트</p>`
+                }
+
+            }
+        })
+    </script>
+</body>
+</html>
