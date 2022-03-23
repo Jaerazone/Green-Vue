@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+</head>
+<body>
+
+    <!-- 2) 슬롯 컴포넌트 (Unnamed slot)-->
+    <!-- 
+        슬롯은 3가지 형태가 있다.
+        (1) unnamed slot 이름없이 <slot></slot> 만 쓰는것
+        (2) Named slot 이름을 넣어slot 사용, 여러개의 슬롯을 이용해 다른값을 넣어줄수있다.
+        (3) scope slot
+    -->
+    <div id="app">
+        <slot-component>
+            새로운 값을 넣어줍니다
+        </slot-component>
+        <slot-component>
+            <p>첫번째 태그를 작성해서 넣어줍니다</p>
+            <p>두번째 태그, 전체내용이 slot에 들어갑니다</p>
+        </slot-component>
+
+        <!-- 2-1) 슬롯 컴포넌트 실습 (Unnamed slot 실습)-->
+        <link-component url="https://www.naver.com/">네이버</link-component>
+        <link-component url="https://www.daum.net/">다음</link-component>
+
+        <!-- 2-2) 슬롯 컴포넌트 실습 (Unnamed slot 실습)-->
+        <br>
+        <input type="text" v-model="memo">
+        <button @click="addMemo">추가</button>
+        <memo-component v-for="m in memolist">{{m}}</memo-component>
+        <!-- slot의 위치가 {{m}} -->
+    </div>
+
+    <script>
+        // <!-- 2) 슬롯 컴포넌트 -->
+        Vue.component ('slot-component', {
+            template : // 기본<slot>을 unnamed slot이라고한다.
+            `<div>
+                <h3>슬롯입니다</h3>
+                <slot></slot> 
+                <slot></slot>
+            </div>`,
+        })
+
+        //2-1) 슬롯 컴포넌트 실습 (Unnamed slot 실습)
+        Vue.component ('link-component', {
+            props: ['url'],
+            template : // 기본<slot>을 unnamed slot이라고한다.
+            `<div>
+                <p>슬롯사용</p>
+                <a v-bind:href="url">
+                    <slot></slot>
+                </a> 
+            </div>`,
+        })
+
+        Vue.component ('memo-component', {
+            template : // 기본<slot>을 unnamed slot이라고한다.
+            `<div>
+                <h3>메모</h3>
+                <p>{{time}}</p>
+                <slot></slot>    <!-- slot의 위치가 {{m}} -->
+            </div>`,
+            data : function () {
+                return { 
+                    time : new Date() 
+                };
+            }
+        })
+
+        new Vue ({ // 최상위 Root
+            el : "#app",
+            data : {
+                memo : "",
+                memolist : [],
+            },
+            methods : {
+                addMemo : function() {
+                    //memo의 값을 들고와서 memolist에 넣어준다
+                    this.memolist.push(this.memo);
+                    this.memo = "";
+
+                }
+            }
+
+        })
+    </script>
+    
+</body>
+</html>

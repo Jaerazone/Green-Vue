@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+</head>
+<body>
+
+    <div id="app">
+        <show-picture>
+            <!--
+                v-slot 을 사용하면 
+                스크립트 1개에 html 템플릿 2개 사용가능
+                슬롯의 이름과 값을 함께 사용할수있다. 
+            -->
+            <template v-slot:cat = '{catsname}'>
+                <div v-for="item in catsname">
+                    {{item.name}}
+                    <img src="" alt="" width="100" v-bind:src="item.src">
+                </div>
+            </template>
+
+            <template v-slot:age>
+                1살
+            </template>
+
+        </show-picture>
+    </div>
+
+    <script>
+        Vue.component('show-picture', {
+            template:
+            `<div>
+                <slot name='cat' v-bind:catsname="catNames2"></slot>
+                <slot name='age'></slot>
+            </div>`,
+            data : function() {
+                return {
+                    // 1.속성의 값을 객체의 배열로 전달했을 때 이름 출력하기
+                    // 2. 이미지 태그에 src값을 넣어 이미지 출력하기
+                    catNames2 :[
+                        {name : '랙돌', src: "https://w.namu.la/s/05868ec268c2ee408c1fbb5e46b8cba018ee5e925dd23bee2c5d8c7fc457261e4354596d5899714510e2932d73c9bab526829a3e8e4521f9816e671af9195fd9ff15a9ddeefc5486ed99d354a34557b09766c4d6d4fc02de4188b5b7948a12c3"},
+                        {name : '코리안숏', src: "https://zipsadiary.co.kr/wp-content/uploads/2020/03/pc002071129.png"}
+                    ]
+                }
+            }
+        })
+        new Vue({
+            el : "#app",
+        })
+    </script>
+    
+</body>
+</html>

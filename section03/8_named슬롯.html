@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+</head>
+<body>
+    <!-- 3) Named slot -->
+    <!-- (2) Named slot 이름을 넣어slot 사용, 
+        여러개의 슬롯을 이용해 다른값을 넣어줄수있다. -->
+
+    <div id="app">
+        <named-component>
+            <!-- slot의 이름을 이용하여 값을 넣어줌 -->
+            <div slot="movie">
+                <img src="" alt="스파이더맨">
+                <p>스파이더맨</p>
+            </div>
+            <!-- 여러개의 슬롯을 이용해 다른값을 넣어줄수있다. -->
+            <p slot="rate">5</p>
+        </named-component>
+
+        <!-- 3-1) Named slot 실습-->
+        <name-component>
+            <div slot = "person">
+                <img width alt="" width="100">
+                <p>홍길동</p>
+            </div>
+            <p slot ="depart">개발팀</p>
+        </name-component>
+    </div>
+
+    <script>
+        //3) Named slot
+        Vue.component ('named-component', {
+            template : 
+            `<div>
+                <h3>영화</h3>
+                <slot name = 'movie'></slot>
+                <p>평점</p>
+                <slot name = 'rate'></slot>
+            </div>`
+        })
+
+        //3-1) Named slot 실습
+        Vue.component ('name-component', {
+            template : 
+            `<div>
+                <h3>인사관리카드</h3>
+                <slot name='person'></slot>
+                <p>부서 : </p>
+                <slot name='depart'></slot>
+            </div>`
+        })
+
+        new Vue({
+            el: "#app"
+        })
+
+    </script>
+</body>
+</html>

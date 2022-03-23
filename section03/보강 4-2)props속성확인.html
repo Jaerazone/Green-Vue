@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+</head>
+<body>
+
+    <div id="app">
+        <!-- 2)여기에 속성을 넣어야 사용가능
+            안에 text값을 수정하고싶지만, 수정못하니까 v-bind로 new Vue와 연결시킴
+        -->
+        <!-- props 은 컴포넌트의 속성을 만든다. -->
+        <child-component 
+        v-bind:parentMessage="message" 
+        tagMessage="text" >
+        </child-component> 
+
+        <!-- 속성 : type,class/ 속성값: text, on-->
+
+        <!-- v-bind는 단방향으로 접근하여 부모의 데이터값으로 바꾼다-->
+        <input type="text" class="on" 
+            v-bind:value="message"
+            v-bind:class="StyleOn"
+            > 
+        <input type="checkbox" class="on">
+    </div>
+    
+    <script>
+
+        Vue.component ('child-component', {
+            //props은 태그에서 사용하는 속성 = 속성값 과 동일하게 사용하게됨
+            props : ['parentMessage', 'tagMessage'], //1) 부모로 받아올 메세지는 parentMessag, 태그에서 받아올 메세지는 tagMessag라고 정함
+            template : 
+            `<div>
+                <p>부모로 부터 들고온 메세지 : {{parentMessage}}</p>
+                <p>태그로 부터 들고온 메세지 : {{tagMessage}}</p>
+            </div>`,
+        })
+
+        new Vue ({
+            el : "#app",
+            data : {
+                message : '부모의 메세지입니다',
+                StyleOn : 'on'
+            }
+        })
+    </script>
+</body>
+</html>

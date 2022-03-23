@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+</head>
+<body>
+    <!-- 3/23(수) -->
+    <!-- 1) 이벤트 버스 -->
+    <div id="app">
+        <news-component></news-component>
+        <!-- 1-1) 이벤트버스 실습 -->
+        <cancle-component></cancle-component>
+        <person-component></person-component>
+    </div>
+
+    <script>
+        // 1) 이벤트 버스
+        const EventBus = new Vue()
+
+        Vue.component ('news-component', {
+            template : 
+            `<div>
+                <button @click="addCount">신문발행 : {{count}}</button>
+            </div>`,
+            data : function () {
+                return {
+                    count : 0,
+                }
+            },
+            methods : {
+                addCount : function () {
+                    this.count += 1;
+                    //구독자에게 보낼 사용자 정의 이벤트 생성 필요
+                    EventBus.$emit('add')
+                }
+            }
+            
+        })
+
+        Vue.component('person-component',{
+            template : 
+            `<div> 
+                <p>구독자 확인 : {{count}}</p>
+            </div>`,
+            data : function() {
+                return {
+                    count :0,
+                }
+            },
+            //자바스크립트에서 값이 변경될때마다 새로고침?새로생성된다?
+            created() {
+                EventBus.$on('add',()=>{ // 간단한내용이라 익명함수를 사용
+                    this.count++;
+                })
+                // 1-1) 이벤트버스 실습
+                EventBus.$on('sub',()=>{ // 간단한내용이라 익명함수를 사용
+                    this.count--;
+                })
+                console.log("created"); //현재는 가상DOM이라서 created, mounted 만 (콘솔출력)생성됨
+            },
+            mounted() {
+                console.log("mounted");
+            },
+            update() { 
+                console.log("update"); //DOM을 바꿀때마다 update,destroyed 가 생성된다
+            },
+            destroyed() {
+                console.log("destroyed");
+            }
+        })
+
+
+        // 1-1) 이벤트버스 실습
+        Vue.component ('cancle-component', {
+            template : 
+            `<div>
+                <button @click="subCount">구독취소 : {{count}}</button>
+            </div>`,
+            data : function () {
+                return {
+                    count : 0,
+                }
+            },
+            methods : {
+                subCount : function () {
+                    this.count ++;
+                    //구독자에게 보낼 사용자 정의 이벤트 생성 필요
+                    EventBus.$emit('sub')
+                }
+            }
+            
+        })
+
+
+        new Vue ({
+            el : "#app"
+        })
+    </script>
+    
+</body>
+</html>
