@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <style>
+        li { list-style-type: none;}
+        .product {
+        border-radius: 20px;
+        border: solid gainsboro 1px;
+        width: 400px;
+        text-align: center;
+        padding: 10px 0;
+        }
+        .product .phone{ 
+        width: 300px;
+        border-radius: 10px;
+        }
+        .product button{ 
+        border: none;
+        background-color: transparent;
+        font-size: large;
+        color: darkgray;
+        cursor: pointer;
+        font-size: x-large;
+        }
+        .product button.on{ 
+        border: none;
+        background-color: transparent;
+        font-size: large;
+        color: red;
+        font-size: x-large;
+        }
+        </style>
+</head>
+<body>
+
+    <div id="app">
+        <div class="product">
+            <img src="./Ultra_Skyblue_01.png" alt="" class="phone">
+            <h3>Galaxy S22 Ultra</h3>
+            <ul>
+                <li>디스플레이 : 178.55mm</li>
+                <li>CPU: Octa-Core</li>
+            </ul>
+            <color-component class="min">
+            </color-component>
+            
+        </div>
+    </div>
+
+    <script>
+        Vue.component('color-component', {
+            template : 
+            `
+            <div>
+                <button @click="clickBtn" v-show="a">            
+                    <img :src="heartgray" >
+                </button>
+                <button class="on" @click="clickBtn" v-show="!a">
+                    <img :src="heartred" >
+                    </button>
+                <slot></slot>
+            </div>
+            `,
+            data : function(){
+                return {
+                    heartgray : "./gray_pngwing.png",
+                    heartred : "./red_pngwing.png",
+                    a : true
+                }
+            },
+            methods : {
+                clickBtn() {
+                    this.a = !this.a
+                }
+            }
+            
+        })
+        
+        new Vue ({
+            el : "#app",
+            data : {
+            }
+        })
+    </script>
+    
+</body>
+</html>
